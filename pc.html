@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background: #03ccbb;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  </style>
+</head>
+
+<body style="height: 3000px;">
+  <div class="box"></div>
+
+  <script>
+    //获取盒子 
+    var ele = document.querySelector('.box');
+
+    // 移动最大宽高
+    var maxW = document.documentElement.clientWidth - ele.offsetWidth;
+    var maxH = document.documentElement.offsetHeight - ele.offsetHeight;
+
+    ele.onmousedown = function (e) {//在元素上按下鼠标
+      e = e || window.event;
+      //记录鼠标按下时，到元素边缘的距离
+      // console.log(e)
+      var nX = e.offsetX;
+      var nY = e.offsetY;
+
+      document.onmousemove = function (e) {//在document范围移动鼠标
+        e = e || window.event;
+        //计算元素的偏移量
+        // console.log(nX)
+        var nLeft = e.pageX - nX;
+        var nTop = e.pageY - nY;
+
+        //限制元素的最大最小偏移量
+        nLeft = Math.min(maxW, Math.max(0, nLeft));
+        nTop = Math.min(maxH, Math.max(0, nTop));
+
+
+        ele.style.left = nLeft + "px";
+        ele.style.top = nTop + "px";
+      }
+    }
+    // 鼠标已开，move事件消失
+    document.onmouseup = function () {
+      document.onmousemove = null;
+    }
+  </script>
+
+</body>
+
+</html>
